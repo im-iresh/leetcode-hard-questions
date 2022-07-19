@@ -1,0 +1,26 @@
+int shortestSubarray(vector<int> A, int K) {
+        int n = A.size(), mini = n+1;
+        int temp;
+        vector<long> v(A.begin(),A.end());
+        deque<long> d;
+        for (int i = 0; i < n; i++) {
+            if (i)
+                v[i] += v[i - 1];
+            if (v[i] >= K)
+                mini = min(mini, i + 1);//sum if elements from 0 to i
+            while (d.size() > 0 && v[i] - v[d.front()] >= K){//checking for a j>0 for which subarray A[j..i] has a sum >=k 
+                    temp=i-d.front();
+                    mini =min(mini,temp);
+                    d.pop_front();
+            }
+            while (d.size() > 0 && v[i] <= v[d.back()])// if we encounter a negative element we clear the deque before that index as the prefix sum will surely be decreased because of it
+                d.pop_back();
+            d.push_back(i);
+        }
+        if(mini<=n){
+            return mini;
+        }
+        else{
+            return -1;
+        }
+    }
