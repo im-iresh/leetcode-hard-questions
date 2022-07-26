@@ -1,0 +1,33 @@
+string minWindow(string s, string t) {
+    if(t.length()>s.length()){
+        return "";
+    }
+        int mt[256]={0};
+        int ms[256]={0};
+        int count=0,start=0,fstart=-1,mini=INT_MAX,winlen;
+        for(int i=0;i<t.length();i++){
+            mt[t[i]]++;
+        }
+        for(int i=0;i<s.length();i++){
+            ms[s[i]]++;
+            if((mt[s[i]]!=0) and (ms[s[i]]<=mt[s[i]])){
+                ++count;
+            }
+            if(count==t.length()){
+                while((mt[s[start]]==0) || (ms[s[start]]>mt[s[start]])){
+                    ms[s[start]]--;
+                    start++;
+                }
+                winlen=i-start+1;
+                if(winlen<mini){
+                    mini=winlen;
+                    fstart=start;
+                }
+            }
+        }
+        if(fstart==-1){
+            return "";
+        }
+        //cout<< s.substr(fstart,mini)<<endl;
+        return s.substr(fstart,mini);
+    }
