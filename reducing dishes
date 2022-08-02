@@ -1,0 +1,14 @@
+int maxSatisfaction(vector<int>& v) {
+        sort(v.begin(),v.end());
+        int postfix_sum=0,res=0,maxi=INT_MIN;
+        int i=v.size()-1;
+        for(;i>=0;i--){
+            postfix_sum+=v[i];
+            res+=postfix_sum;
+            maxi=max(res,maxi);
+        }
+        if(maxi<0){
+            return 0;
+        }
+        return maxi;
+    }
