@@ -1,0 +1,38 @@
+
+
+class Solution {
+public:
+    int smallestDistancePair(vector<int>& v, int k) {
+        sort(v.begin(),v.end());
+        int n=v.size(),c,i,j;
+        int low=0,high=(v[n-1]-v[0]),mid;
+        while(low<=high){
+            c=0;
+            i=0;
+            j=1;
+            mid=(low+high)/2;
+            while(i<n){
+                while(j<n){
+                    if((v[j]-v[i])>mid){
+                        break;
+                    }
+                    j++;
+                }
+                c+=j-i-1;
+                i++;
+            }
+            
+            if(c>=k){
+                if((high==mid and c==k) or low==high ){
+                    return mid;
+                }
+                high=mid;
+            }
+            else{
+                low=mid+1;
+            }
+            
+        }
+        return low;
+    }
+};
