@@ -1,0 +1,50 @@
+class Solution {
+public:
+    bool canplace(vector<vector<char>>& v,int x,int y,char k){
+        int i,j,p,q;
+        //row & column
+        for(i=0;i<9;i++){
+            if(v[x][i]==k or v[i][y]==k){
+                return false;
+            }
+        }
+        p= 3*(x/3);
+        q= 3*(y/3);
+        for(i=p;i<p+3;i++){
+            for(j=q;j<q+3;j++){
+                if(v[i][j]==k){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    bool solver(vector<vector<char>>& v,int x,int y){
+        if(x==9){
+            return true;
+        }
+        if(y==9){
+            return solver(v,x+1,0);
+        }
+        if(v[x][y]!='.'){
+            return solver(v,x,y+1);
+        }
+        for(char ch='1';ch<='9';ch++){
+            if(canplace(v,x,y,ch)){
+                v[x][y]=ch;
+                if(solver(v,x,y+1)){
+                    return true;
+                }
+            }
+        }
+        v[x][y]='.';
+        return false;
+        
+    }
+    
+    void solveSudoku(vector<vector<char>>& v) {
+        bool res= solver(v,0,0);
+        return;
+    }
+};
