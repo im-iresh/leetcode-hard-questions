@@ -1,0 +1,60 @@
+
+class Solution {
+public:
+    bool isvalid(vector<string> &s,int n,int x,int y){
+        for(int i=0;i<x;i++){
+            if(s[i][y]=='Q'){
+                return false;
+            }
+        }
+        
+        
+        int i=x,j=y;
+        while(i>=0 and j>=0){
+            if(s[i][j]=='Q'){
+                return false;
+            }
+            i--;
+            j--;
+        }
+        i=x;
+        j=y;
+        
+        while(i>=0 and j<n){
+            if(s[i][j]=='Q'){
+                return false;
+            }
+            i--;
+            j++;
+        }
+        return true;
+    }
+    
+    bool solver(int &res,int n,int i,vector<string> &s){
+        if(i==n){
+            res++;
+            return false;
+        }
+        for(int j=0;j<n;j++){
+            if(isvalid(s,n,i,j)){
+                s[i][j]='Q';
+                if(solver(res,n,i+1,s)){
+                    return true;
+                }
+                s[i][j]='.';
+            }
+        }
+        return false;
+    }
+    
+    int totalNQueens(int n) {
+        string stp(n,'.');
+        vector<string> s(n,stp);
+        int res=0;
+        if(n<4){
+            return n==1?1:0;
+        }
+        bool ans=solver(res,n,0,s);
+        return res;
+    }
+};
