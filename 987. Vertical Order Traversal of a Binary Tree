@@ -1,0 +1,44 @@
+
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        map<int,vector<pair<int,int>>>res;
+        ans(root,0,0,res);
+        vector<int>v;
+        vector<vector<int>>levels(res.size(),v);
+        int i=0;
+        for(auto it:res){      
+            sort(it.second.begin(),it.second.end(),comparator);
+            for(auto p: it.second){
+                levels[i].push_back(p.first);
+            }
+            i++;
+        }
+
+        return levels;
+    }
+
+private: 
+    static bool comparator(pair<int,int>a,pair<int,int>b){
+        if(a.second==b.second){
+            return a.first<b.first;
+        }
+        return a.second<b.second;
+    }
+    void ans(TreeNode* node, int col,int row, map<int,vector<pair<int,int>>> &res){
+        if(node==NULL){
+            return;
+        }
+        if(res.count(col)){
+            res[col].push_back(make_pair(node->val,row));
+        }
+        else{
+            vector<pair<int,int>> v;
+            v.push_back(make_pair(node->val,row));
+            res.insert(make_pair(col,v));
+        }
+        ans(node->left,col-1,row+1,res);
+        ans(node->right,col+1,row+1,res);
+        return;
+    }
+};
