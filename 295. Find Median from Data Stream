@@ -1,0 +1,56 @@
+class MedianFinder {
+public:
+priority_queue<int> left; //max
+priority_queue<int,vector<int>,greater<int>>right;//min
+bool flag;
+double d;
+    MedianFinder() {
+        flag=true;
+    }
+    
+    void addNum(int num) {
+        if(flag){
+            left.push(num);
+            flag=false;
+            d=num;
+        }
+        else{
+            if(left.size()>right.size()){
+                if(num>=d){
+                    right.push(num);
+                }
+                else{
+                    right.push(left.top());
+                    left.pop();
+                    left.push(num);
+                }
+                d=(right.top()+left.top())/2.0;
+            }
+            else if(left.size()==right.size()){
+                if(num>=d){
+                    right.push(num);
+                }
+                else{
+                    left.push(num);
+                }
+                d= (right.size()>left.size())?right.top():left.top();
+            }
+            else{
+                if(num<=d){
+                    left.push(num);
+                }
+                else{
+                    left.push(right.top());
+                    right.pop();
+                    right.push(num);
+                }
+                d=(right.top()+left.top())/2.0;
+            }
+        }
+
+    }
+    
+    double findMedian() {
+        return d;
+    }
+};
